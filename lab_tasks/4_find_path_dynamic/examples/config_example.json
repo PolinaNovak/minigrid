@@ -1,0 +1,7 @@
+{
+    "min_size": 10,
+    "max_size": 20,
+    "wall_density": 0.3,
+    "task": "4_find_path_dynamic",
+    "walls_update_per_second": 5
+}

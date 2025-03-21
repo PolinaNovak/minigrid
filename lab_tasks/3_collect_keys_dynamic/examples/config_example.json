@@ -1,0 +1,7 @@
+{
+    "min_size": 5,
+    "max_size": 20,
+    "wall_density": 0.3,
+    "task": "3_collect_keys_dynamic",
+    "walls_update_per_second": 5
+}

@@ -1,0 +1,23 @@
+{
+    "min_size": 5,
+    "max_size": 20,
+    "wall_density": 0.3,
+    "task": "2_collect_keys",
+    "map": {
+        "grid_size": 10,
+        "agent_start_pos": [1, 1],
+        "agent_start_dir": 0,
+        "goal_pos": [],
+        "max_steps": 256,
+        "doors": [],
+        "keys": [
+            [3, 3, "red"],
+            [5, 5, "blue"],
+            [7, 7, "green"]
+        ],
+        "walls": [
+            [2, 1], [2, 2], [2, 3], [2, 4],
+            [4, 6], [5, 6], [6, 6], [7, 6]
+        ]
+    }
+}
