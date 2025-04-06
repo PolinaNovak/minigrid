@@ -1,8 +1,7 @@
 from queue import PriorityQueue
-def heuristic(a, b):
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+from utils.a_star_algorithm.heuristic import heuristic
 
-def a_star_search(grid_size, start, goal, walls):
+def a_star_search(grid_size, start, goal, walls, path_processor, result_formatter):
     open_set = PriorityQueue()
     open_set.put((0, start))
     came_from = {}
@@ -13,7 +12,8 @@ def a_star_search(grid_size, start, goal, walls):
         _, current = open_set.get()
 
         if current == goal:
-            return True
+            # Восстанавливаем путь
+            return path_processor(current, start, came_from)
 
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             neighbor = (current[0] + dx, current[1] + dy)
@@ -31,4 +31,4 @@ def a_star_search(grid_size, start, goal, walls):
                 f_score[neighbor] = tentative_g_score + heuristic(neighbor, goal)
                 open_set.put((f_score[neighbor], neighbor))
 
-    return False  # Путь не найден
+    return result_formatter()

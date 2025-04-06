@@ -1,50 +1,13 @@
-from queue import PriorityQueue
+from utils.a_star_algorithm.a_star_search import a_star_search
+from utils.a_star_algorithm.heuristic import heuristic
+from utils.a_star_algorithm.a_star_options import lengthAndPathReturn, noneNoneReturn
 
-from utils.path_control.a_star_search_return_path import heuristic
 
-def a_star_search(grid_size, start, goal, walls):
-    open_set = PriorityQueue()
-    open_set.put((0, start))
-    came_from = {}
-    g_score = {start: 0}
-    f_score = {start: heuristic(start, goal)}
-
-    while not open_set.empty():
-        _, current = open_set.get()
-
-        if current == goal:
-            # Восстанавливаем путь
-            path = []
-            while current in came_from:
-                path.append(current)
-                current = came_from[current]
-            path.append(start)
-            path.reverse()
-            return len(path) - 1, path  # Возвращаем длину пути и сам путь
-
-        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-            neighbor = (current[0] + dx, current[1] + dy)
-
-            if not (0 <= neighbor[0] < grid_size and 0 <= neighbor[1] < grid_size):
-                continue  # Выход за границы карты
-            if neighbor in walls:
-                continue  # Препятствие (стена)
-
-            tentative_g_score = g_score[current] + 1
-
-            if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
-                came_from[neighbor] = current
-                g_score[neighbor] = tentative_g_score
-                f_score[neighbor] = tentative_g_score + heuristic(neighbor, goal)
-                open_set.put((f_score[neighbor], neighbor))
-
-    return None, None  # Путь не найден
-
-def count_min_path_steps(map):
-    grid_size = map['grid_size']
-    agent_pos = tuple(map['agent_start_pos'])
-    walls = set(tuple(wall) for wall in map['walls'])
-    keys = [(key[0], key[1]) for key in map['keys']]  # Извлекаем координаты ключей
+def count_min_path_steps(task_map):
+    grid_size = task_map['grid_size']
+    agent_pos = tuple(task_map['agent_start_pos'])
+    walls = set(tuple(wall) for wall in task_map['walls'])
+    keys = [(key[0], key[1]) for key in task_map['keys']]  # Извлекаем координаты ключей
 
     total_steps = 0
     full_path = []
@@ -62,7 +25,7 @@ def count_min_path_steps(map):
                 closest_distance = distance
 
         # Находим расстояние и путь до ближайшего ключа
-        distance, path = a_star_search(grid_size, agent_pos, closest_key, walls)
+        distance, path = a_star_search(grid_size, agent_pos, closest_key, walls, lengthAndPathReturn, noneNoneReturn)
         if distance is None:
             raise ValueError("Невозможно найти путь до ключа.")
 

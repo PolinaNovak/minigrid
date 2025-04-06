@@ -1,5 +1,6 @@
 import pygame
 from utils.control_agent_movement import calculate_direction, move_agent
+from constants.marks import MARKS
 def agent_step(env, next_pos, remaining_keys):
     direction = calculate_direction(env.agent_pos, next_pos)
     if direction is not None:
@@ -16,8 +17,8 @@ def agent_step(env, next_pos, remaining_keys):
 
     return False
 
-def run_pygame(env, student_path, map):
-    keys = [(key[0], key[1]) for key in map['keys']]
+def run_pygame(env, student_path, task_map):
+    keys = [(key[0], key[1]) for key in task_map['keys']]
     pygame.init()
     clock = pygame.time.Clock()
 
@@ -35,7 +36,7 @@ def run_pygame(env, student_path, map):
                 running = False
 
         if current_step >= total_steps:
-            print("Все шаги выполнены.")
+            print(f"Лимит шагов исчерпан. Оценка: {MARKS['Неудовлетворительно']}")
             break
 
         next_pos = student_path[current_step]
@@ -49,8 +50,8 @@ def run_pygame(env, student_path, map):
         current_step += 1
 
     if len(remaining_keys) == 0:
-        print("Успех! Все ключи собраны!")
+        print(f"Успех! Все ключи собраны!")
     else:
-        print("Неудача. Не все ключи были собраны.")
+        print(f"Неудача. Не все ключи были собраны.")
 
     pygame.quit()

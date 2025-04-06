@@ -1,5 +1,5 @@
-from utils.map_creation.map_creator_without_goal import MapCreator
-from utils.map_creation.map_generator_without_goal import MapGenerator
+from utils.map.map_creator_without_goal import MapCreator
+from utils.map.map_generator_without_goal import MapGenerator
 from info.print_map_info import print_map_info
 from agent_movement import run_pygame
 

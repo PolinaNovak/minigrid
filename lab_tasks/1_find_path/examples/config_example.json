@@ -3,6 +3,7 @@
     "max_size": 20,
     "wall_density": 0.3,
     "task": "1_find_path",
+    "seed": 10,
     "map": {
         "grid_size": 10,
         "agent_start_pos": [1, 1],

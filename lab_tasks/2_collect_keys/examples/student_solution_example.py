@@ -19,7 +19,8 @@ def a_star_search(grid, start, goal, walls):
                 path.append(current)
                 current = came_from[current]
             path.append(start)
-            return path[::-1]
+            path.reverse()
+            return path
 
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             neighbor = (current[0] + dx, current[1] + dy)
@@ -38,12 +39,11 @@ def a_star_search(grid, start, goal, walls):
                 open_set.put((f_score[neighbor], neighbor))
 
     return None  # Путь не найден
-
-def solution(map):
-    grid_size = map['grid_size']
-    agent_pos = tuple(map['agent_start_pos'])
-    walls = set(tuple(wall) for wall in map['walls'])
-    keys = [(key[0], key[1]) for key in map['keys']]  # Извлекаем координаты ключей
+def solution(task_map):
+    grid_size = task_map['grid_size']
+    agent_pos = tuple(task_map['agent_start_pos'])
+    walls = set(tuple(wall) for wall in task_map['walls'])
+    keys = [(key[0], key[1]) for key in task_map['keys']]  # Извлекаем координаты ключей
 
     full_path = []
     remaining_keys = set(keys)

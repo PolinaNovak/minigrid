@@ -2,12 +2,12 @@ import pygame
 import time
 from utils.control_agent_movement import calculate_direction, move_agent
 from student_solution import solution
-from map_update import update_walls_dynamically
+from utils.map.map_update import update_walls_dynamically, add_walls_with_keys
 from compare_decisions import compare_paths
-from agent_update import change_agent_position
+from utils.map.agent_update import change_agent_position_with_keys
+from constants.marks import MARKS
 
-
-def agent_step(env, next_pos, remaining_keys, map):
+def agent_step(env, next_pos, remaining_keys, task_map, is_teleportating):
     direction = calculate_direction(env.agent_pos, next_pos)
     if direction is not None:
         move_agent(env, next_pos, direction)
@@ -21,14 +21,19 @@ def agent_step(env, next_pos, remaining_keys, map):
             print(f"Ключ собран! Осталось собрать: {len(remaining_keys)}")
             env.render()
             time.sleep(1)
-            return change_agent_position(map, env, remaining_keys)
+            if is_teleportating:
+                return list(change_agent_position_with_keys(task_map, env, remaining_keys)), remaining_keys
 
-    return next_pos
+    return list(next_pos), remaining_keys
 
 
-def run_pygame(env, map, config):
-    keys = [(key[0], key[1]) for key in map['keys']]
-    max_steps = map.get('max_steps', 256)
+def run_pygame(env, task_map, config):
+    keys = [(key[0], key[1]) for key in task_map['keys']]
+    max_steps = task_map.get('max_steps', 256)
+    agent_teleportation = False
+
+    if "dynamic" in config:
+        agent_teleportation = config.get('agent_teleportation', False)
 
     pygame.init()
     clock = pygame.time.Clock()
@@ -45,17 +50,18 @@ def run_pygame(env, map, config):
                 running = False
 
         if max_steps < total_steps:
-            print("Лимит шагов исчерпан.")
+            print(f"Лимит шагов исчерпан. Оценка: {MARKS['Неудовлетворительно']}")
             break
 
-        next_step = solution(map, remaining_keys)
+        next_step= solution(task_map, remaining_keys)
         if next_step is None:
             break
 
-        next_step = agent_step(env, next_step, remaining_keys, map)
-        map['agent_start_pos'] = next_step
+        next_step, task_map['keys'] = agent_step(env, next_step, remaining_keys, task_map, agent_teleportation)
+        task_map['agent_start_pos'] = next_step
 
-        map['walls'] = update_walls_dynamically(map, env, config['walls_update_per_second'])
+        task_map['walls'] = update_walls_dynamically(task_map, env, config,
+                                                     add_walls_with_keys)
 
         env.render()
         clock.tick(1)

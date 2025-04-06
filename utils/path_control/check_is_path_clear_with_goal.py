@@ -1,10 +1,10 @@
 import numpy as np
 from queue import SimpleQueue
 
-def is_path_clear(map, walls):
-    grid_size = map['grid_size']
-    start = tuple(map['agent_start_pos'])
-    goal = tuple(map['goal_pos'])
+def is_path_clear(task_map, walls):
+    grid_size = task_map['grid_size']
+    start = tuple(task_map['agent_start_pos'])
+    goal = tuple(task_map['goal_pos'])
 
     grid = np.zeros((grid_size, grid_size), dtype=int)
     for wall in walls:

@@ -1,46 +1,11 @@
-import heapq
-def find_optimal_path(grid_size, start, goal, walls):
-    wall_set = set(map(tuple, walls))
+from utils.a_star_algorithm.a_star_search import a_star_search
+from utils.a_star_algorithm.a_star_options import pathReturn, noneReturn
 
-    # Эвристика: Манхэттенское расстояние
-    def heuristic(a, b):
-        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+def find_optimal_path(task_map):
+    grid_size = task_map['grid_size']
+    start = tuple(task_map['agent_start_pos'])
+    goal = tuple(task_map['goal_pos'])
+    walls = set(map(tuple, task_map['walls']))
 
-    # Приоритетная очередь для A*
-    open_set = []
-    heapq.heappush(open_set, (0, start))
-    came_from = {}
-    g_score = {start: 0}
-    f_score = {start: heuristic(start, goal)}
+    return a_star_search(grid_size, start, goal, walls, pathReturn, noneReturn)
 
-    while open_set:
-        current_f, current = heapq.heappop(open_set)
-
-        if current == goal:
-            path = []
-            while current in came_from:
-                path.append(current)
-                current = came_from[current]
-            path.append(start)
-            return path[::-1]
-
-        # Проверяем соседей текущего узла
-        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-            neighbor = (current[0] + dx, current[1] + dy)
-
-            if not (0 <= neighbor[0] < grid_size and 0 <= neighbor[1] < grid_size):
-                continue
-            if neighbor in wall_set:
-                continue
-
-            # Стоимость перемещения к соседу
-            tentative_g_score = g_score[current] + 1
-
-            # Если найден более короткий путь к соседу
-            if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
-                came_from[neighbor] = current
-                g_score[neighbor] = tentative_g_score
-                f_score[neighbor] = tentative_g_score + heuristic(neighbor, goal)
-                heapq.heappush(open_set, (f_score[neighbor], neighbor))
-
-    return None

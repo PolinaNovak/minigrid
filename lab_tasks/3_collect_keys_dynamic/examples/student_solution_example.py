@@ -1,12 +1,9 @@
 
 from queue import PriorityQueue
 
-from utils.path_control.a_star_search import heuristic
-
+def heuristic(a, b):
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
 def a_star_search(grid_size, start, goal, walls):
-    if isinstance(grid_size, int):
-        grid_size = (grid_size, grid_size)
-
     open_set = PriorityQueue()
     open_set.put((0, start))
     came_from = {}
@@ -17,7 +14,6 @@ def a_star_search(grid_size, start, goal, walls):
         _, current = open_set.get()
 
         if current == goal:
-            # Восстанавливаем путь
             path = []
             while current in came_from:
                 path.append(current)
@@ -30,7 +26,7 @@ def a_star_search(grid_size, start, goal, walls):
             neighbor = (current[0] + dx, current[1] + dy)
 
             # Проверяем выход за границы карты
-            if not (0 <= neighbor[0] < grid_size[0] and 0 <= neighbor[1] < grid_size[1]):
+            if not (0 <= neighbor[0] < grid_size and 0 <= neighbor[1] < grid_size):
                 continue
             if neighbor in walls:
                 continue  # Препятствие (стена)
@@ -46,10 +42,10 @@ def a_star_search(grid_size, start, goal, walls):
     return None  # Путь не найден
 
 
-def solution(map, remaining_keys):
-    grid_size = map['grid_size']
-    agent_pos = tuple(map['agent_start_pos'])
-    walls = set(tuple(wall) for wall in map['walls'])
+def solution(task_map, remaining_keys):
+    grid_size = task_map['grid_size']
+    agent_pos = tuple(task_map['agent_start_pos'])
+    walls = set(tuple(wall) for wall in task_map['walls'])
 
     # Находим ближайший ключ
     closest_key = None

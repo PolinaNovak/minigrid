@@ -1,5 +1,5 @@
-from utils.map_creation.map_creator_without_goal import MapCreator
-from utils.map_creation.map_generator_without_goal import MapGenerator
+from utils.map.map_creator_without_goal import MapCreator
+from utils.map.map_generator_without_goal import MapGenerator
 from minimum_path import count_min_path_steps
 from compare_decisions import compare_paths
 from student_solution import solution
@@ -25,6 +25,5 @@ def process_paths(task_map, env):
 def start(config):
     task_map = MapGenerator().generate_random_map(config)
     env = MapCreator(task_map, render_mode="human")
-    print(task_map)
 
     process_paths(task_map, env)

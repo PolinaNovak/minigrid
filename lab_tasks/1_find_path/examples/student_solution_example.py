@@ -16,11 +16,13 @@ def is_passable(x, y, env, grid_size):
 
     return True
 
+def heuristic(a, b):
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
-def solution(current_pos, goal, env, grid_size):
-
-    def heuristic(a, b):
-        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+def solution(task_map, env):
+    grid_size = task_map['grid_size']
+    goal = tuple(task_map['goal_pos'])
+    current_pos = tuple(task_map['agent_start_pos'])
 
     open_set = PriorityQueue()
     open_set.put((0, current_pos))

@@ -1,7 +1,5 @@
 from constants.direction import DIRECTIONS
 import pygame
-
-
 def calculate_direction(current_pos, next_pos):
     dx = next_pos[0] - current_pos[0]
     dy = next_pos[1] - current_pos[1]

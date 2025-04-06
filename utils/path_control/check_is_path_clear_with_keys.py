@@ -1,10 +1,10 @@
 import numpy as np
 from queue import SimpleQueue
 
-def is_path_clear(map_config, walls):
-    grid_size = map_config['grid_size']
-    start = tuple(map_config['agent_start_pos'])
-    keys = [tuple(key[:2]) for key in map_config.get('keys', [])]  # Извлекаем координаты ключей
+def is_path_clear_keys(task_map, walls):
+    grid_size = task_map['grid_size']
+    start = tuple(task_map['agent_start_pos'])
+    keys = [tuple(key[:2]) for key in task_map.get('keys', [])]  # Извлекаем координаты ключей
 
     # Создаем сетку
     grid = np.zeros((grid_size, grid_size), dtype=int)

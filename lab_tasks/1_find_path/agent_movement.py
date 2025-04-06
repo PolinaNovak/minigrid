@@ -1,5 +1,6 @@
 import pygame
 from utils.control_agent_movement import calculate_direction, move_agent
+from constants.marks import MARKS
 
 def agent_step(env, next_pos):
     # Вычисляем направление и перемещаем агента
@@ -12,7 +13,7 @@ def agent_step(env, next_pos):
 
     return False
 
-def run_pygame(env, student_path, goal):
+def run_pygame(env, student_path):
     pygame.init()
     clock = pygame.time.Clock()
 
@@ -26,7 +27,7 @@ def run_pygame(env, student_path, goal):
                 running = False
 
         if current_step >= total_steps:
-            print("Все шаги выполнены.")
+            print(f"Лимит шагов исчерпан. Оценка: {MARKS['Неудовлетворительно']}")
             break
 
         next_pos = student_path[current_step]
