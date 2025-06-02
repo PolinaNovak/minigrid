@@ -41,7 +41,6 @@ class MapGenerator:
                 'task_name': config.get("task_name", "")
             }
 
-            # Границы карты как стены
             for x in range(grid_size):
                 generated_map['walls'].append([x, 0])
                 generated_map['walls'].append([x, grid_size - 1])
@@ -49,7 +48,6 @@ class MapGenerator:
                 generated_map['walls'].append([0, y])
                 generated_map['walls'].append([grid_size - 1, y])
 
-            # Внутренние стены
             num_walls = int(grid_size * grid_size * config.get("wall_density", 0.3))
             for _ in range(num_walls):
                 while True:
@@ -70,7 +68,6 @@ class MapGenerator:
                         generated_map['keys'].append([x, y, key_color])
                         break
 
-            # Проверяем, существует ли путь от агента до цели
             if is_path_clear_keys(generated_map, generated_map['walls']):
                 return generated_map
 

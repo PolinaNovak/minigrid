@@ -8,7 +8,6 @@ def agent_step(env, next_pos, remaining_keys):
 
     if next_pos in remaining_keys:
         x, y = next_pos
-        # Удаляем ключ из сетки
         if env.grid.get(x, y) and env.grid.get(x, y).type == "key":
             env.grid.set(x, y, None)
             remaining_keys.remove(next_pos)
@@ -26,7 +25,6 @@ def run_pygame(env, student_path, task_map):
     current_step = 0
     total_steps = len(student_path)
 
-    # Инициализация оставшихся ключей
     remaining_keys = set(tuple(key[:2]) for key in keys)
     collected_keys = 0
 

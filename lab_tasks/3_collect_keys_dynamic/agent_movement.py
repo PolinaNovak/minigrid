@@ -14,7 +14,6 @@ def agent_step(env, next_pos, remaining_keys, task_map, is_teleportating):
 
     if next_pos in remaining_keys:
         x, y = next_pos
-        # Удаляем ключ из сетки
         if env.grid.get(x, y) and env.grid.get(x, y).type == "key":
             env.grid.set(x, y, None)
             remaining_keys.remove(next_pos)
@@ -41,7 +40,6 @@ def run_pygame(env, task_map, config):
     running = True
     total_steps = 0
 
-    # Инициализация оставшихся ключей
     remaining_keys = set(tuple(key[:2]) for key in keys)
 
     while running:

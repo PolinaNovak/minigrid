@@ -8,9 +8,8 @@ def is_path_clear(task_map, walls):
 
     grid = np.zeros((grid_size, grid_size), dtype=int)
     for wall in walls:
-        grid[wall[1], wall[0]] = 1  # Помечаем стены
+        grid[wall[1], wall[0]] = 1
 
-    # Поиск в ширину (BFS)
     queue = SimpleQueue()
     queue.put(start)
     visited = set()

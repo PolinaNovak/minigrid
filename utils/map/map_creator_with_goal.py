@@ -69,25 +69,18 @@ class MapCreator(MiniGridEnv):
             self.grid.set(x_door, y_door, Key(color=color_key))
 
     def _gen_grid(self, width, height):
-        # Создаем пустой Грид заданного размера
         self.grid = Grid(width, height)
 
-        # Создаем стены, ограничивающие поле
         self.grid.wall_rect(0, 0, width, height)
 
-        # Генерируем стены-препятствия на самой карте
         self.create_walls()
 
-        # Создаем двери на карте
         self.create_doors()
 
-        # Создаем ключи на карте
         self.create_keys()
 
-        # Устанавливаем цель-финиш
         self.put_obj(Goal(), *self.goal_pos)
 
-        # Устанавливаем агента
         if self.agent_start_pos is not None:
             self.agent_pos = self.agent_start_pos
             self.agent_dir = self.agent_start_dir
@@ -95,13 +88,11 @@ class MapCreator(MiniGridEnv):
             self.place_agent()
 
     def get_grid_map(self):
-        # Возвращает карту в виде массива
         if self.grid is None:
             return []
         return self.grid.encode()[:, :, 0].T
 
     def get_image_map(self):
-        # Возвращает карту в виде изображения
         prev_render = self.render_mode
         self.render_mode = 'rgb_array'
         image = self.render()

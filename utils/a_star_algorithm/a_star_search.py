@@ -12,16 +12,15 @@ def a_star_search(grid_size, start, goal, walls, path_processor, result_formatte
         _, current = open_set.get()
 
         if current == goal:
-            # Восстанавливаем путь
             return path_processor(current, start, came_from)
 
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             neighbor = (current[0] + dx, current[1] + dy)
 
             if not (0 <= neighbor[0] < grid_size and 0 <= neighbor[1] < grid_size):
-                continue  # Выход за границы карты
+                continue
             if neighbor in walls:
-                continue  # Препятствие (стена)
+                continue
 
             tentative_g_score = g_score[current] + 1
 

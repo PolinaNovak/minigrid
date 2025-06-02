@@ -3,7 +3,6 @@ from utils.control_agent_movement import calculate_direction, move_agent
 from constants.marks import MARKS
 
 def agent_step(env, next_pos):
-    # Вычисляем направление и перемещаем агента
     direction = calculate_direction(env.agent_pos, next_pos)
     if direction is not None:
         move_agent(env, next_pos, direction)

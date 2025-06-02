@@ -11,12 +11,10 @@ def change_agent_position_with_keys(task_map, env, remaining_keys):
     while attempts < max_attempts:
         new_pos = (random.randint(0, grid_size - 1), random.randint(0, grid_size - 1))
 
-        # Проверяем, что новая позиция не содержит стену, ключ или агента
         if new_pos in walls or new_pos in remaining_keys or new_pos == agent_pos:
             attempts += 1
             continue
 
-        # Проверяем, что из новой позиции можно достичь все оставшиеся ключи
         reachable = True
         for key in remaining_keys:
             if not a_star_search(grid_size, new_pos, key, walls, booleanTrueReturn, booleanFalseReturn):
@@ -24,7 +22,6 @@ def change_agent_position_with_keys(task_map, env, remaining_keys):
                 break
 
         if reachable:
-            # Обновляем позицию агента
             env.agent_pos = new_pos
             return new_pos
 
@@ -46,12 +43,10 @@ def change_agent_position_with_goal(task_map, env):
     while attempts < max_attempts:
         new_pos = (random.randint(0, grid_size - 1), random.randint(0, grid_size - 1))
 
-        # Проверяем, что новая позиция не содержит стену, ключ или агента
         if new_pos in walls or new_pos == goal_pos or new_pos == agent_pos:
             attempts += 1
             continue
 
-        # Проверяем, что из новой позиции можно достичь все оставшиеся ключи
         if a_star_search(grid_size, new_pos, goal_pos, walls, booleanTrueReturn, booleanFalseReturn):
             env.agent_pos = new_pos
             return new_pos

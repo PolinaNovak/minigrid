@@ -9,7 +9,6 @@ def agent_step(env, next_pos):
     if next_pos is None:
         return False
 
-    # Вычисляем направление и перемещаем агента
     direction = calculate_direction(env.agent_pos, next_pos)
     if direction is not None:
         move_agent(env, next_pos, direction)

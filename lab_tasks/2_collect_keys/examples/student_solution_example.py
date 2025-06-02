@@ -26,9 +26,9 @@ def a_star_search(grid, start, goal, walls):
             neighbor = (current[0] + dx, current[1] + dy)
 
             if not (0 <= neighbor[0] < grid and 0 <= neighbor[1] < grid):
-                continue  # Выход за границы карты
+                continue
             if neighbor in walls:
-                continue  # Препятствие (стена)
+                continue
 
             tentative_g_score = g_score[current] + 1
 
@@ -38,18 +38,17 @@ def a_star_search(grid, start, goal, walls):
                 f_score[neighbor] = tentative_g_score + heuristic(neighbor, goal)
                 open_set.put((f_score[neighbor], neighbor))
 
-    return None  # Путь не найден
+    return None
 def solution(task_map):
     grid_size = task_map['grid_size']
     agent_pos = tuple(task_map['agent_start_pos'])
     walls = set(tuple(wall) for wall in task_map['walls'])
-    keys = [(key[0], key[1]) for key in task_map['keys']]  # Извлекаем координаты ключей
+    keys = [(key[0], key[1]) for key in task_map['keys']]
 
     full_path = []
     remaining_keys = set(keys)
 
     while remaining_keys:
-        # Находим ближайший ключ
         closest_key = None
         closest_distance = float('inf')
 
@@ -59,17 +58,14 @@ def solution(task_map):
                 closest_key = key
                 closest_distance = distance
 
-        # Находим путь до ближайшего ключа
         path = a_star_search(grid_size, agent_pos, closest_key, walls)
         if path is None:
             raise ValueError("Невозможно найти путь до ключа.")
 
-        # Добавляем путь к полному маршруту
         if full_path:
             path = path[1:]
         full_path.extend(path)
 
-        # Обновляем позицию агента и удаляем собранный ключ
         agent_pos = closest_key
         remaining_keys.remove(closest_key)
 

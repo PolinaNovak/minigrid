@@ -12,7 +12,7 @@ def remove_walls(env, walls, walls_to_remove_count):
         if not walls:
             break
         wall_to_remove = random.choice(list(walls))
-        env.grid.set(wall_to_remove[0], wall_to_remove[1], None)  # Удаляем стену с карты
+        env.grid.set(wall_to_remove[0], wall_to_remove[1], None)
         removed_walls.append(wall_to_remove)
         walls.remove(wall_to_remove)
     return walls
@@ -35,12 +35,11 @@ def add_walls_with_goal(env, task_map, walls_to_add_count):
             attempts += 1
             continue
 
-        # Проверяем, что карта остаётся проходимой
         temp_walls = walls.copy()
         temp_walls.add(new_wall)
         if is_path_clear(task_map, temp_walls):
             walls.add(new_wall)
-            env.grid.set(new_wall[0], new_wall[1], Wall())  # Добавляем стену на карту
+            env.grid.set(new_wall[0], new_wall[1], Wall())
             added_walls.append(new_wall)
             walls_to_add_count -= 1
 
@@ -66,12 +65,11 @@ def add_walls_with_keys(env, task_map, walls_to_add_count):
             attempts += 1
             continue
 
-        # Проверяем, что карта остаётся проходимой
         temp_walls = walls.copy()
         temp_walls.add(new_wall)
         if is_path_clear_keys(task_map, temp_walls):
             walls.add(new_wall)
-            env.grid.set(new_wall[0], new_wall[1], Wall())  # Добавляем стену на карту
+            env.grid.set(new_wall[0], new_wall[1], Wall())
             added_walls.append(new_wall)
             walls_to_add_count -= 1
 
@@ -90,13 +88,11 @@ def update_walls_dynamically(task_map, env, config, add_walls=None):
 
     walls = set(tuple(wall) for wall in task_map['walls'])
 
-    # Удаление стен
     walls_to_remove_count = min(walls_delete_per_second, len(walls))
     walls = remove_walls(env, walls, walls_to_remove_count)
 
     walls_to_add_count = min(walls_create_per_second, len(walls))
 
-    # Добавление стен
     walls = add_walls(env, task_map, walls_to_add_count)
 
     return walls

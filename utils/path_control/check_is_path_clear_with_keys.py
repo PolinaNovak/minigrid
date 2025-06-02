@@ -4,14 +4,13 @@ from queue import SimpleQueue
 def is_path_clear_keys(task_map, walls):
     grid_size = task_map['grid_size']
     start = tuple(task_map['agent_start_pos'])
-    keys = [tuple(key[:2]) for key in task_map.get('keys', [])]  # Извлекаем координаты ключей
+    keys = [tuple(key[:2]) for key in task_map.get('keys', [])]
 
-    # Создаем сетку
     grid = np.zeros((grid_size, grid_size), dtype=int)
     for wall in walls:
         x, y = wall
         if 0 <= x < grid_size and 0 <= y < grid_size:
-            grid[y, x] = 1  # Помечаем стены
+            grid[y, x] = 1
 
     def bfs(start_pos, target_pos):
         queue = SimpleQueue()
@@ -32,24 +31,19 @@ def is_path_clear_keys(task_map, walls):
 
         return False
 
-    # Проверяем путь через все ключи
     current_pos = start
     remaining_keys = keys.copy()
 
     while remaining_keys:
-        # Проверяем, можно ли добраться до любого из оставшихся ключей
         reachable = False
         for key in remaining_keys:
             if bfs(current_pos, key):
-                # Ключ доступен, перемещаемся к нему
                 current_pos = key
                 remaining_keys.remove(key)
                 reachable = True
                 break
 
         if not reachable:
-            # Невозможно добраться до одного из ключей
             return False
 
-    # Все ключи собраны
     return True

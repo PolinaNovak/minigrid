@@ -5,13 +5,12 @@ def is_passable(x, y, env, grid_size):
     if not (0 <= x < grid_size and 0 <= y < grid_size):
         return False
 
-    # Проверяем состояние клетки
-    cell = env.get_cell(x, y)  # Предполагаем, что у среды есть метод get_cell
+    cell = env.get_cell(x, y)
     if (cell is None):
         return True
-    if cell.type == "wall":  # Если клетка занята стеной
+    if cell.type == "wall":
         return False
-    if cell.type == "obstacle":  # Если клетка занята другим препятствием
+    if cell.type == "obstacle":
         return False
 
     return True
@@ -46,11 +45,10 @@ def solution(task_map, env):
         for dx, dy in directions:
             neighbor = (current[0] + dx, current[1] + dy)
 
-            # Проверяем проходимость и игнорируем уже проверенные
             if not is_passable(*neighbor, env, grid_size):
                 continue
 
-            new_cost = cost_so_far[current] + 1  # Стоимость перехода между соседями = 1
+            new_cost = cost_so_far[current] + 1
             if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
                 cost_so_far[neighbor] = new_cost
                 priority = new_cost + heuristic(neighbor, goal)
